@@ -195,8 +195,10 @@ const sendSlackMessage = async (slackData, channelID, paymentStatus) => {
               slackData.title == "new"
                 ? `${slackData.platform} Payment - New Order`
                 : `${slackData.platform} - Renewal Order`
-            }*\nName: ${slackData.name}\nEmail: ${slackData.email}\nPlan: ${
-              slackData.plan
+            }*\nName: ${slackData.name}\nEmail: ${
+              slackData.email
+            }\nContact Number: ${slackData.contact_num}\nAmount Paid: ${
+              slackData.amount
             }\n\n`
           : `*${`${slackData.platform} Payment - New Order`}*\nEmail: ${
               slackData.email
@@ -206,16 +208,14 @@ const sendSlackMessage = async (slackData, channelID, paymentStatus) => {
     } else {
       text =
         slackData.platform == "Stripe"
-          ? `*${
-              slackData.title == "new"
-                ? `${slackData.platform} Payment - New Order`
-                : `${slackData.platform} - Renewal Order`
-            }*\nName: ${slackData.name}\nEmail: ${
+          ? `*${"Attempted Payments"}*\n${
+              slackData.title == "new" ? `New Payment` : ` Renewal Payment`
+            }\nName: ${slackData.name}\nEmail: ${
               slackData.email
             }\nContact Number: ${slackData.contact_num}\nPayment Status: ${
               slackData.payment_status
             }\nAmount: ${slackData.amount}\nPlatform: ${slackData.platform}\n\n`
-          : `*${`${slackData.platform} Payment - New Order`}*\nEmail: ${
+          : `*${"Attempted Payments"}*\n${`New Payment`}\nEmail: ${
               slackData.email
             }\nContact Number: ${slackData.contact_num}\nPayment Status: ${
               slackData.payment_status
