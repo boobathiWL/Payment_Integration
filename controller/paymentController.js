@@ -66,9 +66,7 @@ const getHubspotContactByEmail = async (email) => {
     }
   } catch (error) {
     console.error("Error retrieving contact:", error.response.data);
-    await sendErrorSlackMessage(
-      error.response ? error.response.data : error.message
-    );
+    await sendErrorSlackMessage("Get user hubspot error");
     return false;
   }
 };
@@ -86,9 +84,7 @@ const updateHubspotContactById = async (contactId, updateData) => {
     return updateResponse.data;
   } catch (error) {
     console.error("Error update hubspot user", error.response.data);
-    await sendErrorSlackMessage(
-      error.response ? error.response.data : error.message
-    );
+    await sendErrorSlackMessage("Error update hubspot user");
     return false;
   }
 };
@@ -111,9 +107,7 @@ const createHubspotUserData = async (data) => {
       "Error creating contact:",
       error.response ? error.response.data : error.message
     );
-    await sendErrorSlackMessage(
-      error.response ? error.response.data : error.message
-    );
+    await sendErrorSlackMessage("Error create hubspot user");
   }
 };
 
@@ -132,9 +126,7 @@ const getUserToMailerLite = async (email) => {
     return response.data.data;
   } catch (error) {
     console.log(error);
-    await sendErrorSlackMessage(
-      error.response ? error.response.data : error.message
-    );
+    await sendErrorSlackMessage("Mailer lite user not found");
   }
 };
 
@@ -153,9 +145,7 @@ const removeUserToMailerLite = async (subscriber_id, group_id) => {
     return true;
   } catch (error) {
     console.log(error);
-    await sendErrorSlackMessage(
-      error.response ? error.response.data : error.message
-    );
+    await sendErrorSlackMessage("Remove user from mailerlite error");
   }
 };
 
@@ -179,9 +169,7 @@ const updateUserMailerLite = async (slackData) => {
     console.log("Mailer_lite user updated and process completed");
   } catch (error) {
     console.log(error);
-    await sendErrorSlackMessage(
-      error.response ? error.response.data : error.message
-    );
+    await sendErrorSlackMessage("Update user - mailer lite error");
   }
 };
 
@@ -244,9 +232,7 @@ const sendSlackMessage = async (slackData, channelID, paymentStatus) => {
     }
   } catch (error) {
     console.log(error);
-    await sendErrorSlackMessage(
-      error.response ? error.response.data : error.message
-    );
+    await sendErrorSlackMessage("Slack error ");
     return false;
   }
 };
@@ -310,7 +296,10 @@ const initiateProcess = async (slackData) => {
   );
   const user = await getUserToMailerLite(slackData.email);
   const checkUserGroupId = ["94835880713258212", "94839450966688832"];
-  const currentUserGroup = user.groups;
+  let currentUserGroup=[]
+  if (user?.groups?.length > 0) {
+    currentUserGroup = user.groups;
+  }
   let userRemovedFromGroup = 0;
   if (currentUserGroup.length > 0) {
     currentUserGroup.forEach(async (group) => {
