@@ -388,7 +388,7 @@ module.exports.paymentProcess = async (req, res) => {
       slackData.email = data.payload.payment.entity.email;
       slackData.contact_num = data.payload.payment.entity.contact;
       slackData.amount = `${data.payload.payment.entity.currency.toUpperCase()} ${
-        Number(data.data.object.lines.data[0].amount) / 100
+        Number(data.payload.payment.entity.amount) / 100
       } `;
     }
 
