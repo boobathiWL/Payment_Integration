@@ -8,6 +8,8 @@ const hubspotHeaders = {
 };
 const MAILERLITE_API_KEY = process.env.MAILERLITE_API_KEY;
 const SLACK_ERROR_CHANEEL_ID = process.env.SLACK_ERROR_CHANEEL_ID;
+const SLACK_CHANNEL_ID_SUCCESS = process.env.SLACK_CHANNEL_ID_SUCCESS;
+const SLACK_CHANNEL_ID_FAILED = process.env.SLACK_CHANNEL_ID_FAILED;
 
 //Error Slack
 const sendErrorSlackMessage = async (error) => {
@@ -303,7 +305,7 @@ const initiateProcess = async (slackData) => {
   //Send slack message
   await sendSlackMessage(
     slackData,
-    process.env.SLACK_CHANNEL_ID,
+    SLACK_CHANNEL_ID_FAILED,
     slackData.payment_status
   );
   const user = await getUserToMailerLite(slackData.email);
@@ -397,7 +399,7 @@ module.exports.paymentProcess = async (req, res) => {
 
       const message = await sendSlackMessage(
         slackData,
-        process.env.SLACK_CHANNEL_ID,
+        SLACK_CHANNEL_ID_SUCCESS,
         paymentStatus
       );
       return message
