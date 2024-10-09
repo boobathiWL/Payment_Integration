@@ -126,7 +126,7 @@ const getUserToMailerLite = async (email) => {
     return response.data.data;
   } catch (error) {
     console.log(error);
-    await sendErrorSlackMessage("Mailer lite user not found");
+    await sendErrorSlackMessage(`Mailer lite user not found : ${email}`);
   }
 };
 
@@ -296,7 +296,7 @@ const initiateProcess = async (slackData) => {
   );
   const user = await getUserToMailerLite(slackData.email);
   const checkUserGroupId = ["94835880713258212", "94839450966688832"];
-  let currentUserGroup=[]
+  let currentUserGroup = [];
   if (user?.groups?.length > 0) {
     currentUserGroup = user.groups;
   }
